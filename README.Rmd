@@ -1,0 +1,83 @@
+---
+title: "README"
+author: "Kenneth Rose"
+date: "Friday, August 08, 2014"
+output: 
+  md_document:
+    variant: markdown_github
+---
+
+## Intro
+
+This package is an R wrapper for the Syspower SKM API.
+
+## Install and load
+
+Install the package from github.
+
+```
+if(!require("devtools")) install.packages("devtools")
+library("devtools")
+install_github("krose/dkstat")
+```
+
+Load the package. I'll also load the ggplot2 package, to make fancier plots.
+
+```{r}
+library("skm")
+```
+
+## Web Query data
+
+
+### ENOQ4-14
+
+Let's load the daily closing prices for the contract ENOQ4-14 in 2014.
+
+```{r, echo=TRUE}
+q414 <- skm_webquery(user_id = user_id, user_password = user_password, series_name = "NPENOQ414", interval = "day", start_time = "01-01-2014", end_time = "0")
+str(q414)
+```
+
+
+### SPOT SYS and DK1 daily
+
+Let's take a look at the SPOT for the system and DK1. Notice i query more than one series.
+
+```{r}
+spot <- skm_webquery(user_id = user_id, user_password = user_password, series_name = c("SPOT", "SPOTDK1"), interval = "day", start_time = "01-01-2014", end_time = "0")
+str(spot)
+
+```
+
+### SPOT SYS and DK1 hourly
+
+And then there is hourly SPOT. Notice the start time.
+
+```{r}
+spot <- skm_webquery(user_id = user_id, user_password = user_password, series_name = c("SPOT", "SPOTDK1"), interval = "Hour", start_time = "w-2", end_time = "0")
+str(spot)
+
+```
+
+
+
+## UMM Query data
+
+Here are just a few examples:
+
+
+```{r}
+## transmission
+
+str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "week", start_time = "2014-08-01", end_time = "2014-08-31", accrow = "no", type = "transmission", areas = c("Sweden", "Denmark"), internalorfuels = "no"))
+
+
+## production
+str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "hour", start_time = "2014-08-01", end_time = "2014-08-31", accrow = "no", type = "production", areas = "Nordpool", internalorfuels = "Nuclear"))
+
+
+## station
+str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "day", start_time = "2014-08-01", end_time = "2014-08-31", accrow = "no", type = "station", areas = NULL, internalorfuels = 3))
+```
+
