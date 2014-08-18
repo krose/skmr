@@ -1,0 +1,14 @@
+Package: skm
+Type: Package
+Title: SKM Syspower Webquery API wrapper
+Version: 1.0
+Date: 2014-08-07
+Author: Kenneth Rose
+Maintainer: Kenneth Rose <kennethrose82@gmail.com>
+Description: Query the API from SKM Syspower.
+Imports:
+    XML,
+    lubridate,
+    stringr,
+    httr
+License: MIT

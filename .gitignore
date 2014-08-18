@@ -1,0 +1,8 @@
+.Rbuildignore
+skm.Rproj
+.Rproj.user
+.Rhistory
+.Rdata
+README.Rmd
+test_script.R
+
