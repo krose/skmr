@@ -9,7 +9,10 @@ output:
 
 ## Intro
 
-This package is an R wrapper for the Syspower SKM API.
+This package is an R wrapper for the [Syspower SKM API](http://syspower.skm.no) and the developer version
+of this package and README can be found on [github.com/krose/skm](http://github.com/krose/skm)
+
+This package is in early beta and it will most likely not have backward compatibility. Pull requests are accepted.
 
 ## Install and load
 
