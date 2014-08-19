@@ -14,7 +14,7 @@ Install the package from github.
     library("devtools")
     install_github("krose/skm")
 
-Load the package. I'll also load the ggplot2 package, to make fancier plots.
+Load the package.
 
 ``` {.r}
 library("skm")
