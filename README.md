@@ -10,7 +10,7 @@ Install the package from github.
 
     if(!require("devtools")) install.packages("devtools")
     library("devtools")
-    install_github("krose/dkstat")
+    install_github("krose/skm")
 
 Load the package. I'll also load the ggplot2 package, to make fancier plots.
 
@@ -43,7 +43,7 @@ spot <- skm_webquery(user_id = user_id, user_password = user_password, series_na
 str(spot)
 ```
 
-    ## 'data.frame':    230 obs. of  3 variables:
+    ## 'data.frame':    231 obs. of  3 variables:
     ##  $ Day    : POSIXct, format: "2014-01-01" "2014-01-02" ...
     ##  $ SPOT   : num  28.2 29.9 29.3 28 29.1 ...
     ##  $ SPOTDK1: num  21.9 23.1 27.1 22.3 26.8 ...
@@ -57,7 +57,7 @@ spot <- skm_webquery(user_id = user_id, user_password = user_password, series_na
 str(spot)
 ```
 
-    ## 'data.frame':    359 obs. of  3 variables:
+    ## 'data.frame':    369 obs. of  3 variables:
     ##  $ Hour   : POSIXct, format: "2014-08-04 00:00:00" "2014-08-04 01:00:00" ...
     ##  $ SPOT   : num  29.3 29.1 28.7 28.5 28.7 ...
     ##  $ SPOTDK1: num  29.4 29.1 28.9 28.7 28.9 ...
@@ -79,7 +79,7 @@ str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "w
     ##  $ SE3toDK1: num  680 623 623 480 567
     ##  $ DK2toSE4: num  1310 1624 1631 1370 1388
     ##  $ SE4toDK2: num  1300 1300 1283 1300 1300
-    ##  $ NO1toSE3: num  2001 605 1027 981 1480
+    ##  $ NO1toSE3: num  2001 605 1027 980 1407
     ##  $ SE3toNO1: num  1606 646 1219 1159 1358
     ##  $ NO3toSE2: num  476 600 600 600 600
     ##  $ SE2toNO3: num  779 1000 952 864 906
@@ -91,13 +91,13 @@ str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "w
     ##  $ SE1toFI : num  1426 1295 1503 1461 1450
     ##  $ FItoSE3 : num  1200 1186 1200 1307 1350
     ##  $ SE3toFI : num  1200 1186 1200 1307 1350
-    ##  $ DEtoSE4 : num  373 352 319 386 511
-    ##  $ SE4toDE : num  477 516 313 481 610
+    ##  $ DEtoSE4 : num  373 352 319 368 511
+    ##  $ SE4toDE : num  477 516 313 441 610
     ##  $ PLtoSE4 : num  102 112 136 77 83
     ##  $ SE4toPL : num  435 431 431 551 500
     ##  $ DEtoDK1 : num  939 363 955 1437 1500
     ##  $ DK1toDE : num  223 323 18 1271 1780
-    ##  $ NO2toDK1: num  944 535 808 733 850
+    ##  $ NO2toDK1: num  944 535 808 529 612
     ##  $ DK1toNO2: num  994 710 974 816 850
     ##  $ DEtoDK2 : num  593 600 589 600 600
     ##  $ DK2toDE : num  578 585 575 585 585

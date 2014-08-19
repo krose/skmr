@@ -18,7 +18,7 @@ Install the package from github.
 ```
 if(!require("devtools")) install.packages("devtools")
 library("devtools")
-install_github("krose/dkstat")
+install_github("krose/skm")
 ```
 
 Load the package. I'll also load the ggplot2 package, to make fancier plots.
