@@ -9,17 +9,18 @@
 #' @param interval Character value. "hour", "day" or "week". Weekly interval will be parsed as ISO week (see package ISOweek for parsing this data_format).
 #' @param start_time Character value with format YYYY-mm-dd, dd-mm-YYYY, dd.mm.YYYY or mm/dd/YYYY.
 #' @param end_time  Character value with format YYYY-mm-dd, dd-mm-YYYY, dd.mm.YYYY or mm/dd/YYYY. "0" (wich is the default) will return today's date or the latest non-empty date.
-#' @param headers character value. Return data with headers? "yes" or "no".
-#' @param data_format "no2" (default). (Later:"no", "dk", "se", "us" might be added).
 #' @param empty_data "yes" or "no" (later: "remove" and "replace" will be added.)
 #' @param currency NULL, "EUR", "DKK", "GPL", "SEK", "USD" or "NOK".
-#' @param time_stamp "yes" or "no"
 #' @export
 #' @import httr
 #' @import XML
 #' @import lubridate
-skm_webquery <- function(user_id, user_password, series_name, interval, start_time, end_time = "0", headers = "yes", data_format = "no2", empty_data = "no" ,  currency=NULL, time_stamp = "no"){
+skm_webquery <- function(user_id, user_password, series_name, interval, start_time, end_time = "0", empty_data = "no" , currency=NULL){
   
+  headers <- "yes"
+  time_stamp <- "no"
+  data_format <- "no2"
+
   ## Test input
   stopifnot(is.character(user_id), !is.null(user_id))
   stopifnot(is.character(user_password), !is.null(user_password))
