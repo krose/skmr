@@ -33,14 +33,14 @@ skm_webquery <- function(user_id, user_password, series_name, interval, start_ti
   
   headers <- tolower(headers)
   interval <- tolower(interval)
-  currency <- tolower(currency)
+  currency <- toupper(currency)
   data_format <- tolower(data_format)
   empty_data <- tolower(empty_data)
   series_name <- toupper(series_name)
 
   stopifnot(headers == "yes" | headers == "no")
   stopifnot(interval == "hour" | interval == "day" | interval == "week")
-  stopifnot(is.null(currency) | currency == "eur" | currency == "nok" | currency == "sek" | currency == "dkk" | currency == "gbp" | currency == "usd")
+  stopifnot(is.null(currency) | currency == "EUR" | currency == "NOK" | currency == "SEK" | currency == "DKK" | currency == "GBP" | currency == "USD")
   stopifnot(data_format == "dk" | data_format == "se" | data_format == "no" | data_format == "no2" | data_format == "us")
   stopifnot(empty_data == "yes" | empty_data == "no" | empty_data == "remove" | empty_data == "replace")
   stopifnot(length(series_name) <= 40)
