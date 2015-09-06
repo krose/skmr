@@ -1,0 +1,4 @@
+# Changes TO 1.0.1
+  
+  * The XML, httr, stringr and lubridate packages are not attached to the global environment anymore.
+  

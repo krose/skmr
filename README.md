@@ -16,7 +16,7 @@ Install the package from github.
 
 Load the package.
 
-``` {.r}
+``` r
 library("skm")
 ```
 
@@ -27,12 +27,12 @@ Web Query data
 
 Let's load the daily closing prices for the contract ENOQ4-14 in 2014.
 
-``` {.r}
+``` r
 q414 <- skm_webquery(user_id = user_id, user_password = user_password, series_name = "NPENOQ414", interval = "day", start_time = "01-01-2014", end_time = "0")
 str(q414)
 ```
 
-    ## 'data.frame':    182 obs. of  2 variables:
+    ## 'data.frame':    188 obs. of  2 variables:
     ##  $ Day      : POSIXct, format: "2014-01-02" "2014-01-03" ...
     ##  $ NPENOQ414: num  34.1 34.5 34.8 35.1 35.6 ...
 
@@ -40,12 +40,12 @@ str(q414)
 
 Let's take a look at the SPOT for the system and DK1. Notice i query more than one series.
 
-``` {.r}
+``` r
 spot <- skm_webquery(user_id = user_id, user_password = user_password, series_name = c("SPOT", "SPOTDK1"), interval = "day", start_time = "01-01-2014", end_time = "0")
 str(spot)
 ```
 
-    ## 'data.frame':    265 obs. of  3 variables:
+    ## 'data.frame':    614 obs. of  3 variables:
     ##  $ Day    : POSIXct, format: "2014-01-01" "2014-01-02" ...
     ##  $ SPOT   : num  28.2 29.9 29.3 28 29.1 ...
     ##  $ SPOTDK1: num  21.9 23.1 27.1 22.3 26.8 ...
@@ -54,28 +54,28 @@ str(spot)
 
 And then there is hourly SPOT. Notice the start time.
 
-``` {.r}
+``` r
 spot <- skm_webquery(user_id = user_id, user_password = user_password, series_name = c("SPOT", "SPOTDK1"), interval = "Hour", start_time = "w-2", end_time = "0")
 str(spot)
 ```
 
-    ## 'data.frame':    357 obs. of  3 variables:
-    ##  $ Hour   : POSIXct, format: "2014-09-08 00:00:00" "2014-09-08 01:00:00" ...
-    ##  $ SPOT   : num  31.9 31.1 30.9 30.9 31.4 ...
-    ##  $ SPOTDK1: num  31.9 31 30.8 30.8 31.3 ...
+    ## 'data.frame':    499 obs. of  3 variables:
+    ##  $ Hour   : POSIXct, format: "2015-08-17 00:00:00" "2015-08-17 01:00:00" ...
+    ##  $ SPOT   : num  9.63 8.4 8.03 7.93 8.19 ...
+    ##  $ SPOTDK1: num  9.61 8.38 8.01 7.92 8.12 ...
 
 UMM Query data
 --------------
 
 Here are just a few examples:
 
-``` {.r}
+``` r
 ## transmission
 
 str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "week", start_time = "2014-08-01", end_time = "2014-08-31", accrow = "no", type = "transmission", areas = c("Sweden", "Denmark"), internalorfuels = "no"))
 ```
 
-    ## 'data.frame':    5 obs. of  27 variables:
+    ## 'data.frame':    5 obs. of  29 variables:
     ##  $ Date    : POSIXct, format: "2014-07-28" "2014-08-04" ...
     ##  $ DK1toSE3: num  545 630 658 487 568
     ##  $ SE3toDK1: num  680 623 623 480 680
@@ -97,6 +97,8 @@ str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "w
     ##  $ SE4toDE : num  477 516 313 298 571
     ##  $ PLtoSE4 : num  102 112 136 120 95
     ##  $ SE4toPL : num  435 431 431 427 408
+    ##  $ LTtoSE4 : num  0 0 0 0 0
+    ##  $ SE4toLT : num  0 0 0 0 0
     ##  $ DEtoDK1 : num  939 363 955 947 659
     ##  $ DK1toDE : num  223 323 18 0 576
     ##  $ NO2toDK1: num  944 535 808 600 781
@@ -104,16 +106,16 @@ str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "w
     ##  $ DEtoDK2 : num  593 600 589 600 600
     ##  $ DK2toDE : num  578 585 575 585 585
 
-``` {.r}
+``` r
 ## production
 str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "hour", start_time = "2014-08-01", end_time = "2014-08-31", accrow = "no", type = "production", areas = "Nordpool", internalorfuels = "Nuclear"))
 ```
 
     ## 'data.frame':    744 obs. of  2 variables:
     ##  $ Date             : POSIXct, format: "2014-08-01 00:00:00" "2014-08-01 01:00:00" ...
-    ##  $ Nuclear(Nordpool): num  10168 10168 10168 10168 10168 ...
+    ##  $ Nuclear(Nordpool): num  12284 12284 12284 12284 12284 ...
 
-``` {.r}
+``` r
 ## station
 str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "day", start_time = "2014-08-01", end_time = "2014-08-31", accrow = "no", type = "station", areas = NULL, internalorfuels = 3))
 ```

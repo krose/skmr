@@ -1,7 +1,7 @@
 ---
 title: "README"
 author: "Kenneth Rose"
-date: "Friday, August 08, 2014"
+date: "Friday, September 06, 2015"
 output: 
   md_document:
     variant: markdown_github

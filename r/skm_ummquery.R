@@ -15,10 +15,6 @@
 #' @param data_format "no2" (default). (Later:"no", "dk", "se", "us" might be added).
 #' @param headers "yes" (default)
 #' @export
-#' @import httr	
-#' @import XML
-#' @import lubridate
-#' @import stringr
 skm_ummquery <- function(user_id, user_password, interval, start_time, end_time, type, areas, internalorfuels, headers = "yes", accrow = "no", data_format = "se"){
   	
   stopifnot(is.character(user_id), !is.null(user_id))
@@ -41,34 +37,34 @@ skm_ummquery <- function(user_id, user_password, interval, start_time, end_time,
   
   if(type == "production"){
   	  
-      areas <- str_replace(string = areas, pattern = "NORDPOOL", replacement = "Nordpool")
+      areas <- stringr::str_replace(string = areas, pattern = "NORDPOOL", replacement = "Nordpool")
   
       query <- list(user = user_id,
-                 pass = user_password,
-                 interval = interval,
-                 start = start_time,
-                 end = end_time,
-                 format = data_format,
-                 acc = accrow,
-                 type = 0,
-                 areas = areas,
-                 headers = headers,
-                 fuels = internalorfuels,
-                 output = "html")
-
+                    pass = user_password,
+                    interval = interval,
+                    start = start_time,
+                    end = end_time,
+                    format = data_format,
+                    acc = accrow,
+                    type = 0,
+                    areas = areas,
+                    headers = headers,
+                    fuels = internalorfuels,
+                    output = "html")
+      
   } else if (type == "transmission") {
     query <- list(user = user_id,
-                 pass = user_password,
-                 interval = interval,
-                 start = start_time,
-                 end = end_time,
-                 format = data_format,
-                 type = 1,
-                   headers = headers,
-                 areas = areas,
-                 internal = internalorfuels,
-                 output = "html")
-
+                  pass = user_password,
+                  interval = interval,
+                  start = start_time,
+                  end = end_time,
+                  format = data_format,
+                  type = 1,
+                  headers = headers,
+                  areas = areas,
+                  internal = internalorfuels,
+                  output = "html")
+    
   } else {
 
   	query <- list(user = user_id,
@@ -88,17 +84,17 @@ skm_ummquery <- function(user_id, user_password, interval, start_time, end_time,
   ## build url
   skm_url <- "http://syspower.skm.no/webquery/ummquery.aspx"
   
-  skm_url <- parse_url(skm_url)
+  skm_url <- httr::parse_url(skm_url)
   skm_url$query <- query
   skm_url$query <- lapply(X = skm_url$query, FUN = paste, collapse = ',')
   
-  skm_url <- build_url(skm_url)
+  skm_url <- httr::build_url(skm_url)
   
   ## Get data
-   skm_data <- content(x = GET(skm_url, as = "text", encoding = "UTF-8"))
+   skm_data <- httr::content(x = httr::GET(skm_url, as = "text", encoding = "UTF-8"))
    
    if(headers == "yes"){
-     skm_data <- readHTMLTable(skm_data,  header = TRUE, stringsAsFactors = FALSE, del = ",")
+     skm_data <- XML::readHTMLTable(skm_data,  header = TRUE, stringsAsFactors = FALSE, del = ",")
    } else if (headers == "no"){
      #skm_data <- readHTMLTable(skm_data, header = FALSE, stringsAsFactors = FALSE, del = ",")
      stop("Headers has to be yes.")
@@ -110,27 +106,30 @@ skm_ummquery <- function(user_id, user_password, interval, start_time, end_time,
    ## parse date
    if (data_format == "se"){
      if (interval == "hour"){
-       skm_data[, 1] <- ymd_hm(skm_data[, 1])
+       skm_data[, 1] <- lubridate::ymd_hm(skm_data[, 1])
      } else if (interval == "day"){
-       skm_data[, 1] <- ymd(skm_data[, 1])
+       skm_data[, 1] <- lubridate::ymd(skm_data[, 1])
      } else if (interval == "week"){
-       if (str_length(skm_data[1,1]) >= 8 & str_length(skm_data[1,1]) <= 10){
-         try(skm_data[, 1] <- ymd(skm_data[, 1]))
+       if (stringr::str_length(skm_data[1,1]) >= 8 & stringr::str_length(skm_data[1,1]) <= 10){
+         try(skm_data[, 1] <- lubridate::ymd(skm_data[, 1]))
        } else {
-         try(skm_data[, 1] <- paste0(str_sub(skm_data[, 1], start = 1, end = 4), "-W", str_sub(skm_data[, 1], start = 5, end = 6), "-7"))
+         try(skm_data[, 1] <- paste0(stringr::str_sub(skm_data[, 1], start = 1, end = 4), 
+                                     "-W", 
+                                     stringr::str_sub(skm_data[, 1], start = 5, end = 6), 
+                                     "-7"))
        }
      } else {
-       stop("Hey.. Interval can only be hour, day or week.")
+       stop("Interval can only be hour, day or week.")
      }
    } else {
-     stop("Hey.. Only the no2 data format is working right now.")
+     stop("Only the no2 data format is working right now.")
    }
    
    skm_data[, c(2:length(colnames(skm_data)))] <- sapply(skm_data[, c(2:length(colnames(skm_data)))], as.numeric)
 
    ## Clean column names.
-   colnames(skm_data) <- str_replace_all(string = colnames(skm_data), pattern = " --> ", replacement = "to")
+   colnames(skm_data) <- stringr::str_replace_all(string = colnames(skm_data), pattern = " --> ", replacement = "to")
    
    return(skm_data)  
-  #return(skm_url)
 }
+
