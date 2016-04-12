@@ -90,9 +90,9 @@ skm_webquery <- function(user_id, user_password, series_name, interval, start_ti
   ## parse dates
   if (data_format == "no2"){
     if (interval == "hour"){
-      skm_data[, 1] <- lubridate::dmy_hm(skm_data[, 1])
+      skm_data[, 1] <- lubridate::dmy_hm(skm_data[, 1], tz = "UTC")
     } else if (interval == "day"){
-      skm_data[, 1] <- lubridate::dmy(skm_data[, 1])
+      skm_data[, 1] <- lubridate::dmy(skm_data[, 1], tz = "UTC")
     } else if (interval == "week"){
       skm_data[, 1] <- paste0(stringr::str_sub(skm_data[, 1], start = 1, end = 4), 
                               "-W", 

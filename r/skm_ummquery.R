@@ -106,12 +106,12 @@ skm_ummquery <- function(user_id, user_password, interval, start_time, end_time,
    ## parse date
    if (data_format == "se"){
      if (interval == "hour"){
-       skm_data[, 1] <- lubridate::ymd_hm(skm_data[, 1])
+       skm_data[, 1] <- lubridate::ymd_hm(skm_data[, 1], tz = "UTC")
      } else if (interval == "day"){
-       skm_data[, 1] <- lubridate::ymd(skm_data[, 1])
+       skm_data[, 1] <- lubridate::ymd(skm_data[, 1], tz = "UTC")
      } else if (interval == "week"){
        if (stringr::str_length(skm_data[1,1]) >= 8 & stringr::str_length(skm_data[1,1]) <= 10){
-         try(skm_data[, 1] <- lubridate::ymd(skm_data[, 1]))
+         try(skm_data[, 1] <- lubridate::ymd(skm_data[, 1], tz = "UTC"))
        } else {
          try(skm_data[, 1] <- paste0(stringr::str_sub(skm_data[, 1], start = 1, end = 4), 
                                      "-W", 
