@@ -12,3 +12,4 @@ Imports:
     stringr,
     httr
 License: MIT
+RoxygenNote: 5.0.1

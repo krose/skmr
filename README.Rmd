@@ -73,7 +73,7 @@ Here are just a few examples:
 ```{r}
 ## transmission
 
-str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "week", start_time = "2014-08-01", end_time = "2014-08-31", accrow = "no", type = "transmission", areas = c("Sweden", "Denmark"), internalorfuels = "no"))
+str(skm_ummquery(user_id = user_id, user_password = user_password, interval = "day", start_time = "2014-08-01", end_time = "2014-08-31", accrow = "no", type = "transmission", areas = c("Sweden", "Denmark"), internalorfuels = "no"))
 
 
 ## production
