@@ -91,7 +91,7 @@ skm_ummquery <- function(user_id, user_password, interval, start_time, end_time,
   skm_url <- httr::build_url(skm_url)
   
   ## Get data
-   skm_data <- httr::content(x = httr::GET(skm_url, as = "text", encoding = "UTF-8"))
+   skm_data <- httr::content(x = httr::GET(skm_url), as = "text", encoding = "UTF-8")
    
    if(headers == "yes"){
      skm_data <- XML::readHTMLTable(skm_data,  header = TRUE, stringsAsFactors = FALSE, del = ",")
