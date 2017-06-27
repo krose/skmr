@@ -1,4 +1,4 @@
-Package: skm
+Package: skmr
 Type: Package
 Title: SKM Syspower Webquery API wrapper
 Version: 1.0.2
