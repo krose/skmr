@@ -3,8 +3,7 @@
 #' This function creates a web query url and reads financial and
 #' other data from SKM syspower into a data.frame.
 #'
-#' @param user_id character value. Login name to SKM syspower.
-#' @param user_password Password to SKM syspower.
+#' @param token character value. Token provided by SKM syspower on new platform SYSPOWER5.
 #' @param series_name character value. Ex: "NPENOYR15", "SPOT", "EEX", "EURSEKCAL15", "EURDKKQ414" or another value from the webquery on syspower.skm.no
 #' @param interval Character value. "hour", "day" or "week". Weekly interval will be parsed as ISO week (see package ISOweek for parsing this data_format).
 #' @param start_time Character value with format YYYY-mm-dd, dd-mm-YYYY, dd.mm.YYYY or mm/dd/YYYY.
@@ -12,15 +11,14 @@
 #' @param empty_data "yes" or "no" (later: "remove" and "replace" will be added.)
 #' @param currency NULL, "EUR", "DKK", "GPL", "SEK", "USD" or "NOK".
 #' @export
-skm_webquery <- function(user_id, user_password, series_name, interval, start_time, end_time = "0", empty_data = "no" , currency=NULL){
+skm_webquery <- function(token, series_name, interval, start_time, end_time = "0", empty_data = "no" , currency=NULL){
   
   headers <- "yes"
   time_stamp <- "no"
   data_format <- "no2"
-
+  
   ## Test input
-  stopifnot(is.character(user_id), !is.null(user_id))
-  stopifnot(is.character(user_password), !is.null(user_password))
+  stopifnot(is.character(token), !is.null(token))
   stopifnot(is.character(series_name), !is.null(series_name))
   stopifnot(is.character(interval), !is.null(interval))
   stopifnot(is.character(start_time), !is.null(start_time))
@@ -46,8 +44,7 @@ skm_webquery <- function(user_id, user_password, series_name, interval, start_ti
   stopifnot(length(series_name) <= 40)
   
   # Create the query
-  query <- list(user = user_id,
-                pass = user_password,
+  query <- list(token = token,
                 interval = interval,
                 start = start_time,
                 end = end_time,
@@ -61,7 +58,7 @@ skm_webquery <- function(user_id, user_password, series_name, interval, start_ti
   
   
   ## build url
-  skm_url <- "http://syspower.skm.no/webquery/webquery.aspx"
+  skm_url <- "https://syspower5.skm.no/api/webquery/execute"
   
   skm_url <- httr::parse_url(skm_url)
   skm_url$query <- query
