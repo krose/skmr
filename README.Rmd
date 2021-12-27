@@ -30,6 +30,20 @@ Load the package.
 library("skm")
 ```
 
+## Get token
+
+SKM syspowers has made a new platform SYSPOWER5 where each user gets a token to use for webqueries. 
+The new website is https://syspower5.skm.no. When entering this site for the first time you will have to follow these instructions:
+
+•	Push «Get access to new SYSPOWER».
+•	A new page will pop up and you fill in all your details in «User credentials request».
+•	After filling in your «E-Mail» in the last line, push «Save» and an e-mail with your new password will be sent to you.
+•	Use your e-mail and new password when you log in to the new platform SYSPOWER5.
+
+When you have completed the above steps and have logged in to SYSPOWER5 then go to Webquery and you will find your token in the url between "Webquery url" and "Export data".
+
+(UMM webquery update in progress)
+
 ## Web Query data
 
 
@@ -38,7 +52,7 @@ library("skm")
 Let's load the daily closing prices for the contract ENOQ4-14 in 2014.
 
 ```{r, echo=TRUE}
-q414 <- skm_webquery(user_id = user_id, user_password = user_password, series_name = "NPENOQ414", interval = "day", start_time = "01-01-2014", end_time = "0")
+q414 <- skm_webquery(token = token, series_name = "NPENOQ414", interval = "day", start_time = "01-01-2014", end_time = "0")
 str(q414)
 ```
 
@@ -48,7 +62,7 @@ str(q414)
 Let's take a look at the SPOT for the system and DK1. Notice i query more than one series.
 
 ```{r}
-spot <- skm_webquery(user_id = user_id, user_password = user_password, series_name = c("SPOT", "SPOTDK1"), interval = "day", start_time = "01-01-2014", end_time = "0")
+spot <- skm_webquery(token = token, series_name = c("SPOT", "SPOTDK1"), interval = "day", start_time = "01-01-2014", end_time = "0")
 str(spot)
 
 ```
@@ -58,7 +72,7 @@ str(spot)
 And then there is hourly SPOT. Notice the start time.
 
 ```{r}
-spot <- skm_webquery(user_id = user_id, user_password = user_password, series_name = c("SPOT", "SPOTDK1"), interval = "Hour", start_time = "w-2", end_time = "0")
+spot <- skm_webquery(token = token, series_name = c("SPOT", "SPOTDK1"), interval = "Hour", start_time = "w-2", end_time = "0")
 str(spot)
 
 ```
