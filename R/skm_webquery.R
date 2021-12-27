@@ -14,10 +14,11 @@
 skm_webquery <- function(token, series_name, interval, start_time, end_time = "0", empty_data = "no" , currency=NULL){
   
   headers <- "yes"
+  date_format <- "nbno"   # mentioned is norwegain, "svse" for swedish and "dadk" for danish - others are available
+  number_format <- "nothousandsdot"   # mentioned is the same for norwegian and danish, "nothousandscomma" for swedish - this and above may be applied later
   time_stamp <- "no"
-  data_format <- "no2"
   
-  ## Test input
+## Test input
   stopifnot(is.character(token), !is.null(token))
   stopifnot(is.character(series_name), !is.null(series_name))
   stopifnot(is.character(interval), !is.null(interval))
@@ -31,32 +32,38 @@ skm_webquery <- function(token, series_name, interval, start_time, end_time = "0
   headers <- tolower(headers)
   interval <- tolower(interval)
   currency <- toupper(currency)
-  data_format <- tolower(data_format)
+  date_format <- tolower(date_format)
+  number_format <- tolower(number_format)
   empty_data <- tolower(empty_data)
   series_name <- toupper(series_name)
   
-  # Test if variables are correctly specified
+  
   stopifnot(headers == "yes" | headers == "no")
-  stopifnot(interval == "hour" | interval == "day" | interval == "week")
-  stopifnot(is.null(currency) | currency == "EUR" | currency == "NOK" | currency == "SEK" | currency == "DKK" | currency == "GBP" | currency == "USD")
-  stopifnot(data_format == "dk" | data_format == "se" | data_format == "no" | data_format == "no2" | data_format == "us")
-  stopifnot(empty_data == "yes" | empty_data == "no" | empty_data == "remove" | empty_data == "replace")
+  stopifnot(interval == "hour" | interval == "day" | interval == 
+              "week")
+  stopifnot(is.null(currency) | currency == "EUR" | currency == 
+              "NOK" | currency == "SEK" | currency == "DKK" | currency == 
+              "GBP" | currency == "USD")
+  #stopifnot(data_format == "dk" | data_format == "se" | data_format == 
+  #             "no" | data_format == "no2" | data_format == "us")
+  stopifnot(empty_data == "yes" | empty_data == "no" | empty_data == 
+              "remove" | empty_data == "replace")
   stopifnot(length(series_name) <= 40)
   
-  # Create the query
-  query <- list(token = token,
-                interval = interval,
-                start = start_time,
-                end = end_time,
-                series = series_name,
-                format = data_format,
-                headers = headers,
-                emptydata = empty_data,
-                currency = currency,
-                updates = time_stamp,
-                fileformat = "html")
-  
-  
+  # Create the query  
+  query <- list(fileformat = "html",
+                series = series_name, 
+                start = start_time, 
+                end = end_time, 
+                interval = interval, 
+                token = token,
+                emptydata = empty_data, 
+                currency = currency, 
+                dateformat = date_format, 
+                numberformat = number_format, 
+                headers = headers, 
+                updates = time_stamp)
+ 
   ## build url
   skm_url <- "https://syspower5.skm.no/api/webquery/execute"
   
@@ -85,7 +92,7 @@ skm_webquery <- function(token, series_name, interval, start_time, end_time = "0
   skm_data <- skm_data[[1]]
   
   ## parse dates
-  if (data_format == "no2"){
+  if (date_format == "nbno"){
     if (interval == "hour"){
       skm_data[, 1] <- lubridate::dmy_hm(skm_data[, 1], tz = "UTC")
     } else if (interval == "day"){
@@ -99,10 +106,8 @@ skm_webquery <- function(token, series_name, interval, start_time, end_time = "0
       stop("Interval can only be hour, day or week.")
     }
   } else {
-    stop("Only the no2 data format is working right now.")
+    stop("Only the nbno data format is working right now.")
   }
 
   return(skm_data)
 }
-
-  
