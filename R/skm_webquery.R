@@ -17,7 +17,7 @@ skm_webquery <- function(token, series_name, interval, start_time, end_time = "0
   date_format <- "nbno"   # mentioned is norwegain, "svse" for swedish and "dadk" for danish - others are available
   number_format <- "nothousandsdot"   # mentioned is the same for norwegian and danish, "nothousandscomma" for swedish - this and above may be applied later
   time_stamp <- "no"
-  decimals <- 4   # added #decimals for more precise data. For now it is permanent, as 4 decimals were also in the old setup
+  decimals <- 4
   
 ## Test input
   stopifnot(is.character(token), !is.null(token))
@@ -100,10 +100,8 @@ skm_webquery <- function(token, series_name, interval, start_time, end_time = "0
     } else if (interval == "day"){
       skm_data[, 1] <- lubridate::dmy(skm_data[, 1], tz = "UTC")
     } else if (interval == "week"){
-      skm_data[, 1] <- paste0(stringr::str_sub(skm_data[, 1], start = 1, end = 4), 
-                              "-W", 
-                              stringr::str_sub(skm_data[, 1], start = 5, end = 6), 
-                              "-7")
+      skm_data[, 1] <- paste0(stringr::str_sub(lubridate::dmy(skm_data[,1]), start = 1, end = 4),"-W",
+                              strftime(lubridate::dmy(skm_data[,1]),format = "%V"))
     } else {
       stop("Interval can only be hour, day or week.")
     }
