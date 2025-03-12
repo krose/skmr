@@ -100,8 +100,8 @@ skm_webquery <- function(token, series_name, interval, start_time, end_time = "0
     } else if (interval == "day"){
       skm_data[, 1] <- lubridate::dmy(skm_data[, 1], tz = "UTC")
     } else if (interval == "week"){
-      skm_data[, 1] <- paste0(stringr::str_sub(lubridate::dmy(skm_data[,1]), start = 1, end = 4),"-W",
-                              strftime(lubridate::dmy(skm_data[,1]),format = "%V"))
+       skm_data[, 1] <- lubridate::dmy(skm_data[, 1], tz = "UTC")
+      skm_data[, 1] <- format(skm_data[, 1], "%G-W%V")
     } else {
       stop("Interval can only be hour, day or week.")
     }
